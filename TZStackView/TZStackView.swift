@@ -17,27 +17,27 @@ func ==(lhs: TZAnimationDidStopQueueEntry, rhs: TZAnimationDidStopQueueEntry) ->
     return lhs.view === rhs.view
 }
 
-public class TZStackView: UIView {
+open class TZStackView: UIView {
 
-    public var distribution: TZStackViewDistribution = .fill {
+    open var distribution: TZStackViewDistribution = .fill {
         didSet {
             setNeedsUpdateConstraints()
         }
     }
 
-    public var axis: UILayoutConstraintAxis = .horizontal {
+    open var axis: UILayoutConstraintAxis = .horizontal {
         didSet {
             setNeedsUpdateConstraints()
         }
     }
     
-    public var alignment: TZStackViewAlignment = .fill
+    open var alignment: TZStackViewAlignment = .fill
 
-    public var spacing: CGFloat = 0
+    open var spacing: CGFloat = 0
     
-    public var layoutMarginsRelativeArrangement = false
+    open var layoutMarginsRelativeArrangement = false
 
-    public private(set) var arrangedSubviews: [UIView] = [] {
+    open private(set) var arrangedSubviews: [UIView] = [] {
         didSet {
             setNeedsUpdateConstraints()
             registerHiddenListeners(oldValue)
@@ -95,7 +95,7 @@ public class TZStackView: UIView {
         }
     }
 
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let view = object as? UIView, let change = change, keyPath == "hidden" {
             let hidden = view.isHidden
             let previousValue = change[.oldKey] as! Bool
@@ -147,29 +147,29 @@ public class TZStackView: UIView {
         }
     }
     
-    public func addArrangedSubview(_ view: UIView) {
+    open func addArrangedSubview(_ view: UIView) {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         arrangedSubviews.append(view)
     }
     
-    public func removeArrangedSubview(_ view: UIView) {
+    open func removeArrangedSubview(_ view: UIView) {
         if let index = arrangedSubviews.index(of: view) {
             arrangedSubviews.remove(at: index)
         }
     }
 
-    public func insertArrangedSubview(_ view: UIView, atIndex stackIndex: Int) {
+    open func insertArrangedSubview(_ view: UIView, atIndex stackIndex: Int) {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         arrangedSubviews.insert(view, at: stackIndex)
     }
 
-    override public func willRemoveSubview(_ subview: UIView) {
+    override open func willRemoveSubview(_ subview: UIView) {
         removeArrangedSubview(subview)
     }
 
-    override public func updateConstraints() {
+    override open func updateConstraints() {
         removeConstraints(stackViewConstraints)
         stackViewConstraints.removeAll()
 
